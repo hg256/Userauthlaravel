@@ -1,6 +1,7 @@
 <?php
 
-HEROKU_POSTGRESQL_RED_URL: postgres://user3123:passkja83kd8@ec2-117-21-174-214.compute-1.amazonaws.com:6212/db982398
+$heroku_db_url = parse_url(env('DATABASE_URL', "postgres://forge:forge@localhost:5432/forge"));
+
 
 return [
 
@@ -83,16 +84,16 @@ return [
             'prefix_indexes' => true,
         ],
 
-        'pgsql' => array(
-            'driver'   => 'pgsql',
-            'host'     => $host,
-            'database' => $database,
-            'username' => $username,
-            'password' => $password,
-            'charset'  => 'utf8',
-            'prefix'   => '',
-            'schema'   => 'public',
-        ),
+        'pg-heroku' => [
+            'driver' => 'pgsql',
+            'host' => $heroku_db_url['host'],
+            'database' => substr($heroku_db_url['path'], 1),
+            'username' => $heroku_db_url['user'],
+            'password' => $heroku_db_url['pass'],
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+        ],
 
 
     ],
